@@ -474,7 +474,7 @@ def main():
     try:
         # Collect processed errors,if any
         process_errors = []
-        for section in registry.configs_list:
+        for section in registry.all_configs_list:
             project = section['project']
             if args.projects and project not in args.projects:
                 continue
