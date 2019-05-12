@@ -37,13 +37,12 @@ def main():
         # active anymore.
         if project.startswith(('openstack-attic', 'stackforge')):
             continue
-        basename = os.path.basename(project)
         # ignore deb- projects that are forks of other projects intended for
         # internal debian packaging needs only and are generally not of
         # interest to upstream developers
-        if basename.startswith('deb-'):
+        if os.path.basename(project).startswith('deb-'):
             continue
-        repos[basename] = {
+        repos[project] = {
             'url': "%(proto)s%(gitbase)s/%(project)s" % dict(
                 proto=GIT_PROTOCOL, gitbase=GIT_SERVER, project=project),
             'url-pattern': {
