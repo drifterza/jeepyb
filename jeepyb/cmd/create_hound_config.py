@@ -19,6 +19,12 @@
 import json
 import os
 
+# Python2 has unicode as a builtin
+# Python3 does not
+import sys
+if sys.version_info[0] >= 3:
+    unicode = str
+
 import jeepyb.utils as u
 
 
