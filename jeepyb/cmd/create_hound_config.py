@@ -36,17 +36,17 @@ GIT_PROTOCOL = os.environ.get('GIT_PROTOCOL', 'https://')
 
 def main():
     registry = u.ProjectsRegistry(PROJECTS_YAML)
-    projects = [entry['project'] for entry in registry.configs_list]
     repos = {}
-    for project in projects:
+    for entry in registry.configs_list:
+        project = entry['project']
+        # Don't bother indexing RETIRED projects.
+        if entry.get('description', '').startswith('RETIRED'):
+            continue
+        if 'retired.config' in entry.get('acl-config', ''):
+            continue
         # Ignore attic and stackforge, those are repos that are not
         # active anymore.
         if project.startswith(('openstack-attic', 'stackforge')):
-            continue
-        # ignore deb- projects that are forks of other projects intended for
-        # internal debian packaging needs only and are generally not of
-        # interest to upstream developers
-        if os.path.basename(project).startswith('deb-'):
             continue
         repos[project] = {
             'url': "%(proto)s%(gitbase)s/%(project)s" % dict(
