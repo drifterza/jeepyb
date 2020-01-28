@@ -172,14 +172,16 @@ def copy_acl_config(project, repo_path, acl_config):
 def push_acl_config(project, remote_url, repo_path, gitid, env=None):
     env = env or {}
     cmd = "commit -a -m'Update project config.' --author='%s'" % gitid
-    status = u.git_command(repo_path, cmd)
+    status, out = u.git_command_output(repo_path, cmd)
     if status != 0:
         log.error("Failed to commit config for project: %s" % project)
+        log.error(out)
         return False
     status, out = u.git_command_output(
         repo_path, "push %s HEAD:refs/meta/config" % remote_url, env)
     if status != 0:
         log.error("Failed to push config for project: %s" % project)
+        log.error(out)
         return False
     return True
 
