@@ -69,30 +69,28 @@ def is_newbie(uploader):
 def post_message(commit, gerrit_user, gerrit_ssh_key, message_file):
     """Post a welcome message on the patch set specified by the commit."""
 
-    default_text = """Thank you for your first contribution to OpenStack.
+    default_text = """\
+Congratulations, you've proposed your first change in OpenDev.
 
-Your patch will now be tested automatically by OpenStack testing frameworks
-and once the automatic tests pass, it will be reviewed by other friendly
-developers. They will give you feedback and may require you to refine it.
+Your submission will now be tested automatically by Zuul, our gatekeeper,
+and reviewed by other friendly developers. They will give you feedback and
+may require you to refine it.
 
 People seldom get their patch approved on the first try, so don't be
 concerned if requested to make corrections. Feel free to modify your patch
 and resubmit a new change-set.
 
-Patches usually take 3 to 7 days to be reviewed so be patient and be
-available on IRC to ask and answer questions about your work. Also it
-takes generally at least a couple of weeks for cores to get around to
-reviewing code. The more you participate in the community the more
-rewarding it is for you. You may also notice that the more you get to know
-people and get to be known, the faster your patches will be reviewed and
-eventually approved. Get to know others and become known by doing code
-reviews: anybody can do it, and it's a great way to learn the code base.
+Patches often take days (and sometimes weeks) to get reviewed, so be
+patient. Don't hesitate to ask for help, and answer questions about your
+work promptly if you can. The more you get to know reviewers and get to be
+known by them, the smoother the review and approval process will become. The
+fastest way to accomplish this is by reviewing other proposed changes
+yourself: anybody can do it, and it's a great way to learn the code base.
 
-Thanks again for supporting OpenStack, we look forward to working with you.
+Thanks again for participating in OpenDev, we look forward to seeing you
+around.
 
-IRC: https://wiki.openstack.org/wiki/IRC
-Workflow: https://docs.openstack.org/infra/manual/developers.html
-Commit Messages: https://wiki.openstack.org/wiki/GitCommitMessages
+Workflow Guide: https://docs.openstack.org/infra/manual/developers.html
 """
 
     if message_file:
