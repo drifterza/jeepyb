@@ -65,7 +65,6 @@ import time
 import gerritlib.gerrit
 import github
 
-import jeepyb.gerritdb
 import jeepyb.log as l
 import jeepyb.utils as u
 
@@ -185,7 +184,7 @@ def push_acl_config(project, remote_url, repo_path, gitid, env=None):
     return True
 
 
-def _get_group_uuid(group, retries=10):
+def _get_group_uuid(gerrit, group, retries=10):
     """
     Gerrit keeps internal user groups in the DB while it keeps systems
     groups in All-Projects groups file (in refs/meta/config).  This
@@ -196,23 +195,17 @@ def _get_group_uuid(group, retries=10):
 
     Wait for up to 10 seconds for the group to be created in the DB.
     """
-    query = "SELECT group_uuid FROM account_groups WHERE name = %s"
-    con = jeepyb.gerritdb.connect()
     for x in range(retries):
-        cursor = con.cursor()
-        cursor.execute(query, (group,))
-        data = cursor.fetchone()
-        cursor.close()
-        con.commit()
-        if data:
-            return data[0]
+        group_list = gerrit.listGroup(group, verbose=True)
+        if group_list:
+            return group_list[0].split('\t')[1]
         if retries > 1:
             time.sleep(1)
     return None
 
 
 def get_group_uuid(gerrit, group):
-    uuid = _get_group_uuid(group, retries=1)
+    uuid = _get_group_uuid(gerrit, group, retries=1)
     if uuid:
         return uuid
     if group in GERRIT_SYSTEM_GROUPS:
@@ -223,7 +216,7 @@ def get_group_uuid(gerrit, group):
             # Gerrit now adds creating user to groups. We don't want that.
             gerrit.removeMember(group, gerrit.username)
             break
-    uuid = _get_group_uuid(group)
+    uuid = _get_group_uuid(gerrit, group)
     if uuid:
         return uuid
     return None
