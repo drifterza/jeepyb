@@ -23,7 +23,7 @@ from __future__ import print_function
 
 __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
-import ConfigParser
+from six.moves import configparser
 import cStringIO
 import datetime
 import json
@@ -63,7 +63,7 @@ def parse_ini(inifile):
     ret = {}
     if not os.path.exists(inifile):
         return
-    config = ConfigParser.RawConfigParser(allow_no_value=True)
+    config = configparser.RawConfigParser(allow_no_value=True)
     config.read(inifile)
 
     if config.has_section('swift'):

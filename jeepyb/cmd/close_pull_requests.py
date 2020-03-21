@@ -39,7 +39,7 @@
 # oauth_token = GITHUB_OAUTH_TOKEN
 
 import argparse
-import ConfigParser
+from six.moves import configparser
 import github
 import logging
 import os
@@ -87,7 +87,7 @@ def main():
     GITHUB_SECURE_CONFIG = os.environ.get('GITHUB_SECURE_CONFIG',
                                           '/etc/github/github.secure.config')
 
-    secure_config = ConfigParser.ConfigParser()
+    secure_config = configparser.ConfigParser()
     secure_config.read(GITHUB_SECURE_CONFIG)
     registry = u.ProjectsRegistry()
 

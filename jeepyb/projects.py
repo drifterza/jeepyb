@@ -26,7 +26,7 @@ Expected review.projects.yaml format:
     - no-launchpad-blueprints
 """
 
-import ConfigParser
+from six.moves import configparser
 
 import jeepyb.utils as u
 
@@ -69,7 +69,7 @@ def has_github(project_full_name):
                 # ...and if it's not set, then still don't use it.
                 return False
     # It's okay if the global option or even the section for this don't exist.
-    except (ConfigParser.NoSectionError, ConfigParser.NoOptionError):
+    except (configparser.NoSectionError, configparser.NoOptionError):
         pass
     # If we got this far, we either explicitly or implicitly default to use it.
     return True

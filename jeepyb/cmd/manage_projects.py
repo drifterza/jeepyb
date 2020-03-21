@@ -51,7 +51,7 @@
 #     project: OTHER_PROJECT_NAME
 
 import argparse
-import ConfigParser
+from six.moves import configparser
 import glob
 import hashlib
 import json
@@ -273,7 +273,7 @@ def create_update_github_project(
     if not needs_update:
         return False
 
-    secure_config = ConfigParser.ConfigParser()
+    secure_config = configparser.ConfigParser()
     secure_config.read(github_secure_config)
 
     global orgs
