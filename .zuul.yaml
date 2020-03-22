@@ -1,0 +1,7 @@
+- project:
+    check:
+      jobs:
+        - gerritlib-jeepyb-integration
+    gate:
+      jobs:
+        - gerritlib-jeepyb-integration
