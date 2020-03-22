@@ -12,7 +12,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import ConfigParser
+from six.moves import configparser
 import logging
 import os
 import shlex
@@ -196,7 +196,7 @@ class ProjectsRegistry(object):
             self._configs_list = self.yaml_doc[1]
 
         if os.path.exists(PROJECTS_INI):
-            self.defaults = ConfigParser.ConfigParser()
+            self.defaults = configparser.ConfigParser()
             self.defaults.read(PROJECTS_INI)
         else:
             try:

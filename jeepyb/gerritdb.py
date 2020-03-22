@@ -14,7 +14,7 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
-import ConfigParser
+from six.moves import configparser
 import os
 import StringIO
 
@@ -35,7 +35,7 @@ def get_broken_config(filename):
         text += line.lstrip()
 
     fp = StringIO.StringIO(text)
-    c = ConfigParser.ConfigParser()
+    c = configparser.ConfigParser()
     c.readfp(fp)
     return c
 

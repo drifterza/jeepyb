@@ -18,7 +18,7 @@
 # corresponding Launchpad blueprints with links back to the change.
 
 import argparse
-import ConfigParser
+from six.moves import configparser
 import os
 import re
 import StringIO
@@ -55,7 +55,7 @@ def get_broken_config(filename):
             text = "%s%s" % (text, line.lstrip())
 
     fp = StringIO.StringIO(text)
-    c = ConfigParser.ConfigParser()
+    c = configparser.ConfigParser()
     c.readfp(fp)
     return c
 
