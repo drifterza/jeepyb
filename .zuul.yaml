@@ -2,6 +2,8 @@
     check:
       jobs:
         - gerritlib-jeepyb-integration
+        - tox-pep8
     gate:
       jobs:
         - gerritlib-jeepyb-integration
+        - tox-pep8
