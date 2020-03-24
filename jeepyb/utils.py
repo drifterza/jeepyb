@@ -82,10 +82,10 @@ def git_command_output(repo_dir, sub_cmd, env=None):
 
 def make_ssh_wrapper(gerrit_user, gerrit_key):
     (fd, name) = tempfile.mkstemp(text=True)
-    os.write(fd, '#!/bin/bash\n')
+    os.write(fd, b'#!/bin/bash\n')
     os.write(fd,
-             'ssh -i %s -l %s -o "StrictHostKeyChecking no" $@\n' %
-             (gerrit_key, gerrit_user))
+             b'ssh -i %s -l %s -o "StrictHostKeyChecking no" $@\n' %
+             (gerrit_key.encode('utf-8'), gerrit_user.encode('utf-8')))
     os.close(fd)
     os.chmod(name, 0o755)
     return dict(GIT_SSH=name)
@@ -171,7 +171,7 @@ def fsck_repo(repo_path):
     # Check for non zero return code or warnings which should
     # be treated as errors. In this case zeroPaddedFilemodes
     # will not be accepted by Gerrit/jgit but are accepted by C git.
-    if rc != 0 or 'zeroPaddedFilemode' in out:
+    if rc != 0 or b'zeroPaddedFilemode' in out:
         log.error('git fsck of %s failed:\n%s' % (repo_path, out))
         raise Exception('git fsck failed not importing')
 
