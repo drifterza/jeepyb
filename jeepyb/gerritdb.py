@@ -14,9 +14,9 @@
 # License for the specific language governing permissions and limitations
 # under the License.
 
+import six
 from six.moves import configparser
 import os
-import StringIO
 
 
 GERRIT_CONFIG = os.environ.get(
@@ -34,7 +34,7 @@ def get_broken_config(filename):
     for line in open(filename, "r"):
         text += line.lstrip()
 
-    fp = StringIO.StringIO(text)
+    fp = six.StringIO(text)
     c = configparser.ConfigParser()
     c.readfp(fp)
     return c

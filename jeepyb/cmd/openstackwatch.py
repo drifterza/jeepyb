@@ -23,8 +23,8 @@ from __future__ import print_function
 
 __author__ = "Chmouel Boudjnah <chmouel@chmouel.com>"
 
+import six
 from six.moves import configparser
-import cStringIO
 import datetime
 import json
 import os
@@ -127,7 +127,7 @@ def upload_to_swift(content, objectname):
         time.sleep(1)
 
     client.put_object(cfg['container'], objectname,
-                      cStringIO.StringIO(content))
+                      six.StringIO(content))
 
 
 def generate_rss(content, project=""):
