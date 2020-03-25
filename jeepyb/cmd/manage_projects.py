@@ -457,7 +457,7 @@ def main():
     acl_cache = {}
     for acl_file in glob.glob(os.path.join(ACL_DIR, '*/*.config')):
         sha256 = hashlib.sha256()
-        sha256.update(open(acl_file, 'r').read())
+        sha256.update(open(acl_file, 'r').read().encode('utf-8'))
         acl_cache[acl_file] = sha256.hexdigest()
 
     gerrit = gerritlib.gerrit.Gerrit(GERRIT_HOST,
