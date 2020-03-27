@@ -198,7 +198,7 @@ def _get_group_uuid(gerrit, group, retries=10):
     Wait for up to 10 seconds for the group to be created in the DB.
     """
     for x in range(retries):
-        group_list = gerrit.listGroup(group, verbose=True)
+        group_list = list(gerrit.listGroup(group, verbose=True))
         if group_list:
             return group_list[0].split('\t')[1]
         if retries > 1:
@@ -213,7 +213,7 @@ def get_group_uuid(gerrit, group):
     if group in GERRIT_SYSTEM_GROUPS:
         return GERRIT_SYSTEM_GROUPS[group]
     gerrit.createGroup(group)
-    for user in gerrit.listMembers(group):
+    for user in list(gerrit.listMembers(group)):
         if gerrit.username == user['username']:
             # Gerrit now adds creating user to groups. We don't want that.
             gerrit.removeMember(group, gerrit.username)
@@ -464,7 +464,7 @@ def main():
                                      GERRIT_USER,
                                      GERRIT_PORT,
                                      GERRIT_KEY)
-    project_list = gerrit.listProjects()
+    project_list = list(gerrit.listProjects())
     ssh_env = u.make_ssh_wrapper(GERRIT_USER, GERRIT_KEY)
     try:
         # Collect processed errors,if any

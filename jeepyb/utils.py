@@ -52,6 +52,7 @@ def run_command(cmd, status=False, env=None):
     p = subprocess.Popen(cmd_list, stdout=subprocess.PIPE,
                          stderr=subprocess.STDOUT, env=newenv)
     (out, nothing) = p.communicate()
+    out = out.decode('utf-8')
     log.debug("Return code: %s" % p.returncode)
     log.debug("Command said: %s" % out.strip())
     if status:
@@ -171,7 +172,7 @@ def fsck_repo(repo_path):
     # Check for non zero return code or warnings which should
     # be treated as errors. In this case zeroPaddedFilemodes
     # will not be accepted by Gerrit/jgit but are accepted by C git.
-    if rc != 0 or b'zeroPaddedFilemode' in out:
+    if rc != 0 or 'zeroPaddedFilemode' in out:
         log.error('git fsck of %s failed:\n%s' % (repo_path, out))
         raise Exception('git fsck failed not importing')
 
