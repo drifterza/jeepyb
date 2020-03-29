@@ -198,7 +198,12 @@ def _get_group_uuid(gerrit, group, retries=10):
     Wait for up to 10 seconds for the group to be created in the DB.
     """
     for x in range(retries):
-        group_list = list(gerrit.listGroup(group, verbose=True))
+        # Work around gerritlib raising a generic "Exception" exception
+        # when listGroup() finds no group
+        try:
+            group_list = list(gerrit.listGroup(group, verbose=True))
+        except Exception:
+            group_list = None
         if group_list:
             return group_list[0].split('\t')[1]
         if retries > 1:
