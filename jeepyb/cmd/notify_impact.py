@@ -48,7 +48,8 @@ from jeepyb import projects
 logger = logging.getLogger('notify_impact')
 
 DOC_TAG = "doc"
-BASE_DIR = '/home/gerrit2/review_site'
+GERRIT_GIT_DIR = os.environ.get(
+    'GERRIT_GIT_DIR', '/home/gerrit2/review_site/git')
 EMAIL_TEMPLATE = """
 Hi, I'd like you to take a look at this patch for potential
 %s.
@@ -241,7 +242,7 @@ def impacted(git_log, impact_string):
 def extract_git_log(args):
     """Extract git log of all merged commits."""
     cmd = ['git',
-           '--git-dir=' + BASE_DIR + '/git/' + args.project + '.git',
+           '--git-dir=' + GERRIT_GIT_DIR + '/' + args.project + '.git',
            'log', '--no-merges', args.commit + '^1..' + args.commit]
     return subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
 

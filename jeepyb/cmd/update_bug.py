@@ -30,7 +30,8 @@ from jeepyb import projects as p
 from jeepyb import utils as u
 
 
-BASE_DIR = '/home/gerrit2/review_site'
+GERRIT_GIT_DIR = os.environ.get(
+    'GERRIT_GIT_DIR', '/home/gerrit2/review_site/git')
 GERRIT_CACHE_DIR = os.path.expanduser(
     os.environ.get('GERRIT_CACHE_DIR',
                    '~/.launchpadlib/cache'))
@@ -332,7 +333,7 @@ def find_bugs(launchpad, git_log, args):
 def extract_git_log(args):
     """Extract git log of all merged commits."""
     cmd = ['git',
-           '--git-dir=' + BASE_DIR + '/git/' + args.project + '.git',
+           '--git-dir=' + GERRIT_GIT_DIR + '/' + args.project + '.git',
            'log', '--no-merges', args.commit + '^1..' + args.commit]
     return subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
 

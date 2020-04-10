@@ -35,7 +35,7 @@ def get_broken_config(filename):
         text += line.lstrip()
 
     fp = six.StringIO(text)
-    c = configparser.ConfigParser()
+    c = configparser.ConfigParser(strict=False)
     c.readfp(fp)
     return c
 
