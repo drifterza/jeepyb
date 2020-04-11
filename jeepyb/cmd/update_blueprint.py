@@ -111,9 +111,12 @@ def find_specs(launchpad, dbconn, args):
     git_dir_arg = '--git-dir={base_dir}/{project}.git'.format(
         base_dir=GERRIT_GIT_DIR,
         project=args.project)
-    git_log = subprocess.Popen(['git', git_dir_arg, 'log', '--no-merges',
-                                args.commit + '^1..' + args.commit],
-                               stdout=subprocess.PIPE).communicate()[0]
+    git_log = subprocess.Popen(
+        [
+            'git', git_dir_arg, 'log', '--no-merges',
+            args.commit + '^1..' + args.commit
+        ],
+        stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
 
     change = args.change
     if '~' in change:

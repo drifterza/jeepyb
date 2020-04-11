@@ -244,7 +244,8 @@ def extract_git_log(args):
     cmd = ['git',
            '--git-dir=' + GERRIT_GIT_DIR + '/' + args.project + '.git',
            'log', '--no-merges', args.commit + '^1..' + args.commit]
-    return subprocess.Popen(cmd, stdout=subprocess.PIPE).communicate()[0]
+    return subprocess.Popen(
+        cmd, stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
 
 
 def main():
