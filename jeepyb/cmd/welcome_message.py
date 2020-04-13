@@ -33,8 +33,6 @@ import paramiko
 import jeepyb.gerritdb
 import jeepyb.log as l
 
-BASE_DIR = '/home/gerrit2/review_site'
-
 logger = logging.getLogger('welcome_reviews')
 
 

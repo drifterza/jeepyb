@@ -31,7 +31,8 @@ import pymysql
 from jeepyb import projects as p
 
 
-BASE_DIR = '/home/gerrit2/review_site'
+GERRIT_GIT_DIR = os.environ.get(
+    'GERRIT_GIT_DIR', '/home/gerrit2/review_site/git')
 GERRIT_CACHE_DIR = os.path.expanduser(
     os.environ.get('GERRIT_CACHE_DIR',
                    '~/.launchpadlib/cache'))
@@ -55,7 +56,7 @@ def get_broken_config(filename):
             text = "%s%s" % (text, line.lstrip())
 
     fp = six.StringIO(text)
-    c = configparser.ConfigParser()
+    c = configparser.ConfigParser(strict=False)
     c.readfp(fp)
     return c
 
@@ -107,12 +108,15 @@ def update_spec(launchpad, project, name, subject, link, topic=None):
 
 
 def find_specs(launchpad, dbconn, args):
-    git_dir_arg = '--git-dir={base_dir}/git/{project}.git'.format(
-        base_dir=BASE_DIR,
+    git_dir_arg = '--git-dir={base_dir}/{project}.git'.format(
+        base_dir=GERRIT_GIT_DIR,
         project=args.project)
-    git_log = subprocess.Popen(['git', git_dir_arg, 'log', '--no-merges',
-                                args.commit + '^1..' + args.commit],
-                               stdout=subprocess.PIPE).communicate()[0]
+    git_log = subprocess.Popen(
+        [
+            'git', git_dir_arg, 'log', '--no-merges',
+            args.commit + '^1..' + args.commit
+        ],
+        stdout=subprocess.PIPE).communicate()[0].decode('utf-8')
 
     change = args.change
     if '~' in change:
