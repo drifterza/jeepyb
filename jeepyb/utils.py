@@ -238,3 +238,7 @@ class ProjectsRegistry(object):
     @property
     def configs_list(self):
         return [entry for entry in self._configs_list if not is_retired(entry)]
+
+    @property
+    def all_configs_list(self):
+        return self._configs_list
